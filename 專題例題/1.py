@@ -1,0 +1,278 @@
+import pandas as pd
+
+data = [
+    
+    {"content": "台茂新年採購節1/5~21全館+13大專區滿仟送佰、13家銀行滿額/分期禮。", "label": "ham", "source": "簡訊", "note": "百貨促銷活動"},
+    {"content": "台茂春節特賣1/22起卡友禮送100元商品券、12家銀行滿額禮。", "label": "ham", "source": "簡訊", "note": "百貨春節促銷"},
+    {"content": "台茂年中慶6/1~19全館滿5仟送3佰，泡泡瑪特快閃登場。", "label": "ham", "source": "簡訊", "note": "百貨年中慶活動"},
+    {"content": "購買Gogoro VIVA MIX限時贈1.5年免費騎，登錄再送提袋。", "label": "ham", "source": "簡訊", "note": "電動機車促銷"},
+    {"content": "遠傳辦iPhone 14最低不到萬元，加碼送iPad 10.2吋。", "label": "ham", "source": "簡訊", "note": "電信手機促銷"},
+    {"content": "遠傳光纖5G+家用光纖120M只要999元起，再送65吋電視。", "label": "ham", "source": "簡訊", "note": "網路與電視促銷"},
+    {"content": "遠傳用戶德誼買Apple送白蘭氏精華飲，指定資費再折萬元。", "label": "ham", "source": "簡訊", "note": "電信搭配購物促銷"},
+    {"content": "珍煮丹茶飲不限品項享遠傳幣3%回饋，活動延長至4/30。", "label": "ham", "source": "簡訊", "note": "飲料店促銷"},
+    {"content": "遠傳friDay購物【網紅看盤】購物分享賺現金。", "label": "ham", "source": "簡訊", "note": "購物平台促銷"},
+    {"content": "大甲媽繞境開運商品上市，送大甲媽壓轎金。", "label": "ham", "source": "簡訊", "note": "宗教活動商品推廣"},
+    {"content": "friDay影音0元優惠，暢看熱門韓劇與電影。", "label": "ham", "source": "簡訊", "note": "影音平台促銷"},
+    {"content": "遠傳AI節能介紹：基地台冷氣變聰明又省電。", "label": "ham", "source": "簡訊", "note": "企業形象推廣"},
+    {"content": "遠傳春節營業中，iPhone全系列現貨供應中。", "label": "ham", "source": "簡訊", "note": "春節手機促銷"},
+    {"content": "小米86吋電視免7萬，國際除濕機低於萬元。", "label": "ham", "source": "簡訊", "note": "家電促銷"},
+    {"content": "填問卷送美食折價券，加碼抽7-11咖啡。", "label": "ham", "source": "簡訊", "note": "問卷活動推廣"},
+    {"content": "新一代AirPods Pro上架，主動降噪升級介紹。", "label": "ham", "source": "簡訊", "note": "3C新品推廣"},
+    {"content": "遠傳回饋百萬意外險保障，請立即領取。", "label": "ham", "source": "簡訊", "note": "保險活動推廣"},
+    {"content": "遠傳用戶送iCloud+ 50GB免費用3個月。", "label": "ham", "source": "簡訊", "note": "雲端儲存促銷"},
+    {"content": "博客來日韓品牌優惠，消費滿500送50元折抵。", "label": "ham", "source": "簡訊", "note": "網購促銷活動"},
+    {"content": "新港奉天宮開運商品開賣，黃金福龜、聚寶盆等。", "label": "ham", "source": "簡訊", "note": "宗教開運商品推廣"},
+    {"content": "新春點燈活動，保平安、消災厄、財神燈點燈。", "label": "ham", "source": "簡訊", "note": "宗教祈福推廣"},
+    {"content": "adidas官網618活動，全館3折起，再送優惠券。", "label": "ham", "source": "簡訊", "note": "運動品牌促銷"},
+    {"content": "提醒：網路詐騙注意事項，查詢165網站。", "label": "ham", "source": "簡訊", "note": "防詐騙提醒"},
+    {"content": "警政署提醒：免經驗高薪工作詐騙，請勿上當。", "label": "ham", "source": "簡訊", "note": "防詐騙提醒"},
+    {"content": "警政署提醒：LINE邀投資借貸多有詐，小心查證。", "label": "ham", "source": "簡訊", "note": "防詐騙提醒"},
+    {"content": "警政署提醒：+號電話來電小心詐騙。", "label": "ham", "source": "簡訊", "note": "防詐騙提醒"},
+    {"content": "KlassiC官網快閃5/17-5/19免運費，手工墨鏡特惠。", "label": "ham", "source": "簡訊", "note": "墨鏡促銷活動"},
+    {"content": "達美樂My Box 129元起，自由搭配5樣副食。", "label": "ham", "source": "簡訊", "note": "速食促銷活動"},
+    {"content": "初五開工慶，達美樂披薩買一送一。", "label": "ham", "source": "簡訊", "note": "速食促銷活動"},
+    {"content": "無接觸超跑級洗車，開幕優惠中。", "label": "ham", "source": "簡訊", "note": "汽車美容推廣"},
+    {"content": "提醒：YouBike卡片未加保，請盡速辦理。", "label": "ham", "source": "簡訊", "note": "保險提醒通知"},
+    {"content": "提醒：YouBike自行車傷害險尚未登錄。", "label": "ham", "source": "簡訊", "note": "保險提醒通知"},
+    {"content": "提醒：YouBike加保享保障，請立即登錄。", "label": "ham", "source": "簡訊", "note": "保險提醒通知"},
+    {"content": "momo購物網單日滿額送好禮，抽氣泡水機。", "label": "ham", "source": "簡訊", "note": "網購促銷"},
+    {"content": "達美樂外送3個大披薩只要699元。", "label": "ham", "source": "簡訊", "note": "速食促銷"},
+    {"content": "桃園最強2房【名鑄】，壓軸倒數賞屋專線。", "label": "ham", "source": "簡訊", "note": "房地產推廣"},
+    {"content": "WOODSTUCK官網限定999組合包，拯救夏日穿搭。", "label": "ham", "source": "簡訊", "note": "服飾促銷活動"},
+    {"content": "社區好醫院推廣計畫，診所就近照顧您。", "label": "ham", "source": "簡訊", "note": "醫療宣導推廣"},
+    {"content": "過年試手氣！星城Online登入抽千萬。", "label": "ham", "source": "簡訊", "note": "遊戲促銷"},
+    {"content": "集雅社問卷活動，填問卷抽電氣熨斗。", "label": "ham", "source": "簡訊", "note": "問卷回饋活動"},
+    {"content": "2017決戰電繪CG繪圖大賽報名中。", "label": "ham", "source": "簡訊", "note": "比賽活動推廣"},
+    {"content": "Omusic申請服務送威秀電影票，抽9999元現金。", "label": "ham", "source": "簡訊", "note": "音樂平台促銷"},
+    {"content": "必勝客訂單已收到，金額$398。", "label": "ham", "source": "簡訊", "note": "訂單通知"},
+    {"content": "旺萊山祝您生日快樂！贈送100購物金。", "label": "ham", "source": "簡訊", "note": "品牌生日促銷"},
+    {"content": "Timberland好友限定，週末超值促銷中。", "label": "ham", "source": "簡訊", "note": "服飾品牌促銷"},
+    {"content": "山崎昆布鍋物外送運送中，訂單編號PO7G1。", "label": "ham", "source": "簡訊", "note": "外送訂單通知"},
+    {"content": "山崎昆布鍋物外送訂單已成立，預計送達20:30。", "label": "ham", "source": "簡訊", "note": "外送訂單通知"},
+    {"content": "Apple直營店取貨通知，訂單W1011234568。", "label": "ham", "source": "簡訊", "note": "取貨通知"},
+    {"content": "您的帳戶長期未登入，將於10/23到期。", "label": "ham", "source": "簡訊", "note": "帳戶到期通知"},
+    {"content": "全+1取貨提醒，請於8/3前到店領取。", "label": "ham", "source": "簡訊", "note": "取貨通知"},
+    {"content": "【警政署提醒您】請勿點擊不明連結，避免遭植入或下載惡意程式，導致大量發送詐騙簡訊詐騙他人，如接獲上述不明簡訊，請踴躍至165官網檢舉。","label": "ham","source": "簡訊","note": "防詐騙提醒"},
+    {
+        "content": "您被騙了嗎?可至165官網http://165.gov.tw/fraud.aspx?id=328 (傳輸費用另計)查詢或搜尋165。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "防詐騙提醒"
+    },
+    {
+        "content": "肯德基桃園萬壽餐廳已收到訂單！金額$399，取餐序號為訂餐手機後4碼。查詢進度：https://tinyurl.com/2nuysxrt",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "取餐通知"
+    },
+    {
+        "content": "【遠傳會員 主題樂園購票優惠】全台六大樂園 劍湖山、綠世界、麗寶樂園與兆豐農場…等等，遠傳心生活APP通通有，不論是親子同遊、朋友瘋玩都超划算，立即購票去https://fetnet.tw/L4dUPz?LID=wTDLU",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "購票優惠"
+    },
+    {
+        "content": "【遠傳會員獨享】看不可能的任務，享不思議的好康！現在訂電影票衝戲院，再回饋5%遠傳幣。找那個誰誰誰一起暑假瘋電影吧！立即訂票：https://fetnet.tw/IBPmia O2105",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "電影優惠"
+    },
+    {
+        "content": "【momoX端午名粽】挑戰最低價$49up/入! 嘉義福源、呷七碗等爆賣經典粽，倒數搶購>> https://momo.dm/NvVmV6",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "端午促銷"
+    },
+    {
+        "content": "[momo一日限定] 新品雀巢雲朵咖啡6盒送50mo幣，享雲朵豐厚奶泡，卡布奇諾還附可可粉! https://momo.dm/F2nVyJ",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "一日限定促銷"
+    },
+    {
+        "content": "【momo快訊】只有三天！滿1500現折500！簡訊折價券已歸戶【限10/24前使用】GO→ https://momo.dm/abJ3ab",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "折價促銷"
+    },
+    {
+        "content": "【遠傳行動客服/遊戲專區】得遠傳網路門市購物金500元，序號：octapp，請於2016/11/15前至eStore行動網頁 estore.fetnet.net/m 綁約指定搭配商品方案，並輸入序號，享折價優惠！（限量前500組使用，先用先贏）",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "購物金活動"
+    },
+    {
+        "content": "【遠傳行動客服/遊戲專區】得GoHappy購物金200元，序號：45142-WDOHUMIL，請於2016/8/31前完成兌換。至GoHappy兌換頁 http://ppt.cc/IV5w4 連結費用依上網資費計算",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "購物金活動"
+    },
+    {
+        "content": "HOLA馮先生至4/19您愛家卡11點等同11元將於月底清除4/26前人生擺態馬克杯點數價199 bit.ly/41p0XVY",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "點數提醒"
+    },
+    {
+        "content": "嘿！來 Zenly 找我：www.zenlyapp.com",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "APP邀請"
+    },
+    {
+        "content": "奇摩拍賣商品已到7-11新店門市，取貨編號81519743831，請12/19前取貨。APP下載 https://yho.com/acvs",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "取貨通知"
+    },
+    {
+        "content": "參加講座抽藍芽耳機！臺北勞動局7月27日打工權益宣導會，立即報名 https://tplabor.tw/la00Mfziq",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "講座活動"
+    },
+    {
+        "content": "親愛的玩家,我們想通知你我們的Privacy Policy已經更新。你可以從這裡查看：boardgamearena.com/legal?section=ppac",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "政策更新通知"
+    },
+    {
+        "content": "「世界王者」爭霸戰的各隊在歷時一個月完成多項挑戰、贏得勝利和高分後，將在洛杉磯決賽中一戰高下。9 月 3 日別忘了到 YouTube 觀看精彩賽事直播。不想錯過任何精彩片段嗎？訂閱推播通知，就能在賽事直播開始前收到觀看提醒。立即訂閱 https://www.youtube.com/Gaming",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "賽事通知"
+    },
+    {
+        "content": "多重首購優惠獻給你8/31前，輸入【八享200】首次於 Uber Eats 購買生鮮雜貨消費滿 $399 即享 2 次 $200 優惠🎉",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "外送優惠"
+    },
+    {
+        "content": "全+1取貨提醒，請於8/3前到店領取。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "取貨通知"
+    },
+    {
+        "content": "【熊媽媽買菜網】訂單編號3000311749682已完成付款，商品出貨後將再以簡訊通知您。若有問題可洽客服：02-2775-5808",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "訂單付款通知"
+    },
+    {
+        "content": "【LINE 禮物】謝謝您選擇LINE禮物！您的訂單(編號2112200012899)已完成付款。前往LINE查看訂單→https://lin.ee/GW0WwLE",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "付款成功通知"
+    },
+    {
+        "content": "恭喜您成功預購Apple iPhone 15 Pro，將於上市後第一時間出貨，相關進度可至官網查詢。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "預購成功通知"
+    },
+    {
+        "content": "【蝦皮購物】您的訂單已於09/01 18:30配達超商：7-11陽光門市，請於09/08前攜帶證件取貨。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "取貨通知"
+    },
+    {
+        "content": "【PChome 24h購物】商品已到達指定超商，請於取貨期限內攜帶證件前往領取，詳情請查詢會員中心訂單狀態。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "取貨通知"
+    },
+    {
+        "content": "【誠品線上】您的訂單（編號2023041500185）已出貨。查詢物流資訊：https://bit.ly/3Zc9tpd",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "出貨通知"
+    },
+    {
+        "content": "【Foodpanda】感謝您的訂購！訂單編號 #12345678 預計於20分鐘內送達，請保持電話暢通。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "外送訂單通知"
+    },
+    {
+        "content": "【Uber Eats】你的訂單已被餐廳接受！外送夥伴將在餐點準備好後即刻前往取餐。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "外送訂單通知"
+    },
+    {
+        "content": "【博客來】您購買的商品已寄出，查詢運送進度請點此：https://www.books.com.tw/express",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "出貨通知"
+    },
+    {
+        "content": "【台灣大哥大】提醒您，電信帳單已出，請於本期繳款截止日前繳清，以免影響服務使用。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "帳單通知"
+    },
+    {
+        "content": "【中華電信】您本期帳單金額為1,230元，繳款截止日為9/10，感謝您的使用。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "帳單通知"
+    },
+    {
+        "content": "【悠遊付】提醒您：綁定自動加值信用卡即將到期，請至APP更新綁定資料以持續使用自動加值服務。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "服務到期提醒"
+    },
+    {
+        "content": "【玉山銀行】感謝您申辦本行信用卡，卡片將於7個工作天內寄達指定地址，請留意收件。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "信用卡申辦通知"
+    },
+    {
+        "content": "【國泰世華銀行】提醒您，本行已收到您的信用卡申請資料，進行中審核中，請耐心等候。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "信用卡申請進度"
+    },
+    {
+        "content": "【LINE Bank】帳戶開立申請成功，歡迎使用LINE Bank多元金融服務！詳情請登入APP查詢。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "銀行開戶成功"
+    },
+    {
+        "content": "【富邦銀行】您的行動網銀OTP驗證碼為 758263，請於3分鐘內輸入以完成交易。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "驗證碼簡訊"
+    },
+    {
+        "content": "【台新銀行】您的信用卡消費通知：09/03 18:40，台北誠品消費金額NT$3,280。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "刷卡通知"
+    },
+    {
+        "content": "【LINE Pay】付款成功！您於09/04 12:30於星巴克消費NT$150，感謝您的使用。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "付款成功通知"
+    },
+    {
+        "content": "【街口支付】交易失敗通知，09/05 15:22嘗試付款失敗，請確認支付設定或洽客服。",
+        "label": "ham",
+        "source": "簡訊",
+        "note": "交易失敗通知"
+    },
+    
+
+]
+
+df = pd.DataFrame(data)
+df.to_csv("ham_messages.csv", index=False, encoding="utf-8-sig")
+
